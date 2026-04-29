@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hielo de la Tata</title>
+
+    <!-- CONFIGURACIÓN APP -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1565C0">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(#0A1F44, #1565C0);
+            color: white;
+            text-align: center;
+        }
+
+        .contenedor {
+            margin-top: 120px;
+            animation: aparecer 2s;
+        }
+
+        @keyframes aparecer {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        .logo {
+            font-size: 70px;
+            animation: flotar 3s infinite;
+        }
+
+        @keyframes flotar {
+            0% {transform: translateY(0);}
+            50% {transform: translateY(-15px);}
+            100% {transform: translateY(0);}
+        }
+
+        h1 {
+            font-size: 35px;
+        }
+
+        p {
+            font-size: 18px;
+        }
+
+        button {
+            background-color: white;
+            color: #1565C0;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0px 0px 15px rgba(0,0,0,0.3);
+        }
+
+        button:hover {
+            transform: scale(1.1);
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 15px;
+            background-color: #0d47a1;
+        }
+
+        .whatsapp {
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+            background: #25D366;
+            padding: 15px;
+            border-radius: 50%;
+            font-size: 25px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="contenedor">
+        <div class="logo">🧊</div>
+
+        <h1>Bienvenidos a Hielo de la Tata</h1>
+        <p>El mejor hielo, rápido y económico</p>
+
+        <button onclick="window.location='tienda.html'">
+            Entrar a la tienda
+        </button>
+    </div>
+
+    <div class="footer">
+        📞 311 788 1274
+    </div>
+
+    <div class="whatsapp" onclick="contacto()">💬</div>
+
+    <script>
+        function contacto() {
+            window.open("https://wa.me/573117881274");
+        }
+
+        // REGISTRAR APP (PWA)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js');
+        }
+    </script>
+
+</body>
+</html>
