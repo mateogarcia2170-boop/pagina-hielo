@@ -1,23 +1,14 @@
 {
   "name": "Hielo de la Tata",
-  "short_name": "Hielo Tata",
-  "description": "Venta de hielo rápida y económica en Rionegro",
-  "start_url": "./index.html",
-  "scope": "./",
+  "short_name": "Hielo",
+  "start_url": "/pagina-hielo/index.html",
   "display": "standalone",
-  "orientation": "portrait",
   "background_color": "#0A1F44",
   "theme_color": "#1565C0",
-
   "icons": [
     {
       "src": "logo.png",
       "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "logo.png",
-      "sizes": "512x512",
       "type": "image/png"
     }
   ]
