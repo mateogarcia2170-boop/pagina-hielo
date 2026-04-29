@@ -1,21 +1,7 @@
-const CACHE_NAME = "hielo-app-v1";
-
-const urlsToCache = [
-  "index.html",
-  "tienda.html",
-  "logo.png"
-];
-
-self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
-  );
+self.addEventListener("install", e => {
+  console.log("SW listo");
 });
 
-self.addEventListener("fetch", event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => response || fetch(event.request))
-  );
+self.addEventListener("fetch", e => {
+  // NO intercepta nada (evita pantalla blanca)
 });
