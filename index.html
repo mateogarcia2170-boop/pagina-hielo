@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
     <title>Hielo de la Tata</title>
 
-    <!-- CONFIGURACIÓN APP -->
+    <!-- PWA -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1565C0">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
@@ -19,8 +19,8 @@
         }
 
         .contenedor {
-            margin-top: 120px;
-            animation: aparecer 2s;
+            margin-top: 100px;
+            animation: aparecer 1.5s;
         }
 
         @keyframes aparecer {
@@ -28,47 +28,46 @@
             to {opacity: 1;}
         }
 
-        .logo {
-            font-size: 70px;
-            animation: flotar 3s infinite;
-        }
-
-        @keyframes flotar {
-            0% {transform: translateY(0);}
-            50% {transform: translateY(-15px);}
-            100% {transform: translateY(0);}
+        img {
+            width: 120px;
+            margin-bottom: 20px;
         }
 
         h1 {
-            font-size: 35px;
+            font-size: 32px;
         }
 
         p {
             font-size: 18px;
+            margin-bottom: 20px;
         }
 
         button {
-            background-color: white;
-            color: #1565C0;
             padding: 15px 30px;
             border: none;
             border-radius: 25px;
-            font-size: 18px;
+            font-size: 16px;
             cursor: pointer;
-            margin-top: 20px;
-            box-shadow: 0px 0px 15px rgba(0,0,0,0.3);
+            margin: 10px;
         }
 
-        button:hover {
-            transform: scale(1.1);
+        .btn-tienda {
+            background: white;
+            color: #1565C0;
+        }
+
+        .btn-instalar {
+            background: #25D366;
+            color: white;
+            display: none;
         }
 
         .footer {
             position: fixed;
             bottom: 0;
             width: 100%;
-            padding: 15px;
-            background-color: #0d47a1;
+            padding: 10px;
+            background: #0d47a1;
         }
 
         .whatsapp {
@@ -87,13 +86,17 @@
 <body>
 
     <div class="contenedor">
-        <div class="logo">🧊</div>
+        <img src="logo.png">
 
         <h1>Bienvenidos a Hielo de la Tata</h1>
-        <p>El mejor hielo, rápido y económico</p>
+        <p>Hielo rápido, económico y de calidad 🧊</p>
 
-        <button onclick="window.location='tienda.html'">
+        <button class="btn-tienda" onclick="window.location='tienda.html'">
             Entrar a la tienda
+        </button>
+
+        <button id="instalarBtn" class="btn-instalar">
+            Instalar App
         </button>
     </div>
 
@@ -108,10 +111,23 @@
             window.open("https://wa.me/573117881274");
         }
 
-        // REGISTRAR APP (PWA)
+        // SERVICE WORKER
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('service-worker.js');
         }
+
+        // BOTÓN INSTALAR APP
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById("instalarBtn").style.display = "inline-block";
+        });
+
+        document.getElementById("instalarBtn").addEventListener("click", () => {
+            deferredPrompt.prompt();
+        });
     </script>
 
 </body>
