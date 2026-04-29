@@ -1,160 +1,69 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Hielo de la Tata</title>
+<script>
+let kilo = 0;
+let dos = 0;
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial;
-            background: linear-gradient(#0A1F44, #1565C0);
-            color: white;
-        }
+// SONIDO
+let sonido = new Audio("https://www.soundjay.com/buttons/sounds/button-3.mp3");
 
-        .nav {
-            background: #0d47a1;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-        }
+// CARGAR DATOS GUARDADOS
+window.onload = function() {
+    kilo = parseInt(localStorage.getItem("kilo")) || 0;
+    dos = parseInt(localStorage.getItem("dos")) || 0;
+    actualizar();
+};
 
-        .contenedor {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+// GUARDAR DATOS
+function guardar() {
+    localStorage.setItem("kilo", kilo);
+    localStorage.setItem("dos", dos);
+}
 
-        .producto {
-            background: white;
-            color: #0A1F44;
-            width: 260px;
-            margin: 20px;
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.4);
-        }
+// AGREGAR PRODUCTOS
+function agregar(tipo) {
+    sonido.play();
 
-        button {
-            background-color: #25D366;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-        }
+    if (tipo === "1kg") kilo++;
+    if (tipo === "2kg") dos++;
 
-        .carrito {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background: white;
-            color: black;
-            padding: 15px;
-            border-radius: 15px;
-            width: 200px;
-        }
+    guardar();
+    actualizar();
 
-        .mapa {
-            margin: 30px;
-            text-align: center;
-        }
+    alert("Producto agregado 🧊");
+}
 
-        .whatsapp {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #25D366;
-            padding: 15px;
-            border-radius: 50%;
-            font-size: 25px;
-            cursor: pointer;
-        }
-    </style>
-</head>
+// ACTUALIZAR CARRITO
+function actualizar() {
+    let k = document.getElementById("kilo");
+    let d = document.getElementById("dos");
+    let t = document.getElementById("total");
 
-<body>
+    if (k) k.innerText = kilo;
+    if (d) d.innerText = dos;
 
-    <div class="nav">
-        <div>🧊 Hielo de la Tata</div>
-        <a href="index.html" style="color:white;">Inicio</a>
-    </div>
+    let total = (kilo * 2000) + (dos * 5000);
+    if (t) t.innerText = "$" + total;
+}
 
-    <div class="carrito">
-        <h4>🛒 Carrito</h4>
-        <p>1 Kg: <span id="kilo">0</span></p>
-        <p>2.6 Kg: <span id="dos">0</span></p>
-        <hr>
-        <p>Total: <span id="total">0</span></p>
-    </div>
+// COMPRAR
+function comprar() {
+    if (kilo === 0 && dos === 0) {
+        alert("No has agregado productos");
+        return;
+    }
 
-    <h2 style="text-align:center;">Productos</h2>
+    let mensaje = "Hola, quiero comprar:\n";
+    if (kilo > 0) mensaje += "- " + kilo + " bolsas de 1 Kg\n";
+    if (dos > 0) mensaje += "- " + dos + " bolsas de 2.6 Kg\n";
 
-    <div class="contenedor">
+    let url = "https://wa.me/573117881274?text=" + encodeURIComponent(mensaje);
+    window.open(url);
+}
 
-        <div class="producto">
-            <h3>Hielo 1 Kg</h3>
-            <p>$2000</p>
-            <button onclick="agregar('1kg')">Agregar</button>
-        </div>
-
-        <div class="producto">
-            <h3>Hielo 2.6 Kg</h3>
-            <p>$5000</p>
-            <button onclick="agregar('2kg')">Agregar</button>
-        </div>
-
-    </div>
-
-    <div style="text-align:center;">
-        <button onclick="comprar()">Comprar por WhatsApp</button>
-    </div>
-
-    <div class="mapa">
-        <h3>📍 Ubicación</h3>
-        <iframe 
-        src="https://maps.google.com/maps?q=calle%2040B%2048A%2057%20Rionegro%20Antioquia&t=&z=17&ie=UTF8&iwloc=&output=embed"
-        width="80%" height="250"></iframe>
-    </div>
-
-    <div class="whatsapp" onclick="contacto()">💬</div>
-
-    <script>
-        let kilo = 0;
-        let dos = 0;
-
-        function agregar(tipo) {
-            if (tipo === "1kg") kilo++;
-            if (tipo === "2kg") dos++;
-
-            actualizar();
-        }
-
-        function actualizar() {
-            document.getElementById("kilo").innerText = kilo;
-            document.getElementById("dos").innerText = dos;
-
-            let total = (kilo * 2000) + (dos * 5000);
-            document.getElementById("total").innerText = "$" + total;
-        }
-
-        function comprar() {
-            if (kilo === 0 && dos === 0) {
-                alert("No has agregado productos");
-                return;
-            }
-
-            let mensaje = "Hola, quiero comprar:\n";
-            if (kilo > 0) mensaje += "- " + kilo + " bolsas de 1 Kg\n";
-            if (dos > 0) mensaje += "- " + dos + " bolsas de 2.6 Kg\n";
-
-            let url = "https://wa.me/573117881274?text=" + encodeURIComponent(mensaje);
-            window.open(url);
-        }
-
-        function contacto() {
-            window.open("https://wa.me/573117881274");
-        }
-    </script>
+// CONTACTO
+function contacto() {
+    window.open("https://wa.me/573117881274");
+}
+</script>
 
 </body>
 </html>
