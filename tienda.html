@@ -1,145 +1,174 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Tienda - Hielo de la Tata</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Tienda - Hielo de la Tata</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial;
-            background: linear-gradient(#0A1F44, #1565C0);
-            color: white;
-            text-align: center;
-        }
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: linear-gradient(#0A1F44, #1565C0);
+      color: white;
+      text-align: center;
+    }
 
-        .nav {
-            background: #0d47a1;
-            padding: 15px;
-        }
+    .nav {
+      background: #0d47a1;
+      padding: 15px;
+    }
 
-        .contenedor {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+    .contenedor {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
 
-        .producto {
-            background: white;
-            color: #0A1F44;
-            width: 260px;
-            margin: 20px;
-            padding: 20px;
-            border-radius: 20px;
-        }
+    .producto {
+      background: white;
+      color: #0A1F44;
+      width: 260px;
+      margin: 20px;
+      padding: 20px;
+      border-radius: 20px;
+    }
 
-        button {
-            background-color: #25D366;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-        }
+    button {
+      margin: 5px;
+      background-color: #25D366;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
 
-        .carrito {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background: white;
-            color: black;
-            padding: 15px;
-            border-radius: 15px;
-        }
-    </style>
+    .carrito {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: white;
+      color: black;
+      padding: 15px;
+      border-radius: 15px;
+    }
+  </style>
 </head>
 
 <body>
 
-    <div class="nav">
-        🧊 Hielo de la Tata | <a href="index.html" style="color:white;">Inicio</a>
+  <div class="nav">
+    🧊 Hielo de la Tata | <a href="index.html" style="color:white;">Inicio</a>
+  </div>
+
+  <!-- 🛒 CARRITO -->
+  <div class="carrito">
+    <h4>Carrito</h4>
+    <p>1 Kg: <span id="kilo">0</span></p>
+    <p>2.6 Kg: <span id="dos">0</span></p>
+    <p>Total: <span id="total">$0</span></p>
+
+    <button onclick="vaciar()">Vaciar</button>
+  </div>
+
+  <h2>Productos</h2>
+
+  <div class="contenedor">
+
+    <!-- 🧊 PRODUCTO 1 -->
+    <div class="producto">
+      <h3>Hielo 1 Kg</h3>
+      <p>$2000</p>
+
+      <button onclick="sumar('1kg')">➕</button>
+      <button onclick="restar('1kg')">➖</button>
     </div>
 
-    <div class="carrito">
-        <h4>🛒 Carrito</h4>
-        <p>1 Kg: <span id="kilo">0</span></p>
-        <p>2.6 Kg: <span id="dos">0</span></p>
-        <p>Total: <span id="total">$0</span></p>
+    <!-- 🧊 PRODUCTO 2 -->
+    <div class="producto">
+      <h3>Hielo 2.6 Kg</h3>
+      <p>$5000</p>
+
+      <button onclick="sumar('2kg')">➕</button>
+      <button onclick="restar('2kg')">➖</button>
     </div>
 
-    <h2>Productos</h2>
+  </div>
 
-    <div class="contenedor">
+  <br>
 
-        <div class="producto">
-            <h3>Hielo 1 Kg</h3>
-            <p>$2000</p>
-            <button onclick="agregar('1kg')">Agregar</button>
-        </div>
+  <button onclick="comprar()">Comprar por WhatsApp</button>
 
-        <div class="producto">
-            <h3>Hielo 2.6 Kg</h3>
-            <p>$5000</p>
-            <button onclick="agregar('2kg')">Agregar</button>
-        </div>
+  <!-- 🔥 SCRIPT COMPLETO -->
+  <script>
+    let kilo = 0;
+    let dos = 0;
 
-    </div>
+    // Cargar datos guardados
+    window.onload = function () {
+      kilo = parseInt(localStorage.getItem("kilo")) || 0;
+      dos = parseInt(localStorage.getItem("dos")) || 0;
+      actualizar();
+    };
 
-    <br>
+    // Guardar datos
+    function guardar() {
+      localStorage.setItem("kilo", kilo);
+      localStorage.setItem("dos", dos);
+    }
 
-    <button onclick="comprar()">Comprar por WhatsApp</button>
+    // SUMAR
+    function sumar(tipo) {
+      if (tipo === "1kg") kilo++;
+      if (tipo === "2kg") dos++;
 
-    <script>
-        let kilo = 0;
-        let dos = 0;
+      guardar();
+      actualizar();
+    }
 
-        // Cargar datos guardados
-        window.onload = function() {
-            kilo = parseInt(localStorage.getItem("kilo")) || 0;
-            dos = parseInt(localStorage.getItem("dos")) || 0;
-            actualizar();
-        };
+    // RESTAR
+    function restar(tipo) {
+      if (tipo === "1kg" && kilo > 0) kilo--;
+      if (tipo === "2kg" && dos > 0) dos--;
 
-        // Guardar
-        function guardar() {
-            localStorage.setItem("kilo", kilo);
-            localStorage.setItem("dos", dos);
-        }
+      guardar();
+      actualizar();
+    }
 
-        // Agregar productos
-        function agregar(tipo) {
-            if (tipo === "1kg") kilo++;
-            if (tipo === "2kg") dos++;
+    // ACTUALIZAR
+    function actualizar() {
+      document.getElementById("kilo").innerText = kilo;
+      document.getElementById("dos").innerText = dos;
 
-            guardar();
-            actualizar();
-        }
+      let total = (kilo * 2000) + (dos * 5000);
+      document.getElementById("total").innerText = "$" + total;
+    }
 
-        // Actualizar carrito
-        function actualizar() {
-            document.getElementById("kilo").innerText = kilo;
-            document.getElementById("dos").innerText = dos;
+    // VACIAR
+    function vaciar() {
+      kilo = 0;
+      dos = 0;
+      guardar();
+      actualizar();
+    }
 
-            let total = (kilo * 2000) + (dos * 5000);
-            document.getElementById("total").innerText = "$" + total;
-        }
+    // COMPRAR
+    function comprar() {
+      if (kilo === 0 && dos === 0) {
+        alert("No has agregado productos");
+        return;
+      }
 
-        // Comprar
-        function comprar() {
-            if (kilo === 0 && dos === 0) {
-                alert("No has agregado productos");
-                return;
-            }
+      let mensaje = "Hola, quiero comprar:%0A";
 
-            let mensaje = "Hola, quiero comprar:\n";
-            if (kilo > 0) mensaje += "- " + kilo + " bolsas de 1 Kg\n";
-            if (dos > 0) mensaje += "- " + dos + " bolsas de 2.6 Kg\n";
+      if (kilo > 0) mensaje += "- " + kilo + " bolsas de 1 Kg%0A";
+      if (dos > 0) mensaje += "- " + dos + " bolsas de 2.6 Kg%0A";
 
-            let url = "https://wa.me/573117881274?text=" + encodeURIComponent(mensaje);
-            window.open(url);
-        }
-    </script>
+      let url = "https://wa.me/573117881274?text=" + mensaje;
+      window.open(url);
+    }
+  </script>
 
 </body>
 </html>
